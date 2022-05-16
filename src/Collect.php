@@ -80,4 +80,18 @@ class Collect
         array_splice($idx, $length);
         return $this;
     }
+    //мои методы
+    public function filter(callable $callback): Collect
+    {
+        return new self(array_filter($this->array, $callback));
+    }
+
+    public function search($key, $value): Collect
+    {
+        $tmp = array_keys(array_column($this->array, $key), $value);
+
+        return (new self($tmp))->map(function ($idx) {
+            return $this->array[$idx];
+        });
+    }
 }
